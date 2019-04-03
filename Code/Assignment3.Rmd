@@ -22,6 +22,19 @@ We expect the throwing arm and distance to both have effects on accuracy, and it
 In order to assess the accuracy of the person throwing, we chose the number of 
 
 
+
+
+#################################################
+Implementation of the experiment:
+- Randomization.
+- Describe any problems with the implementation (maybe the randomization was not    followed?).
+- Is each experiments a genuine run replicate, that is reflects the total           variability of the experiment? (Each trial should be a performed independently    and constitute a full trial.)
+###################################################################
+The experiment were conducted as a 
+
+
+
+
 ```{r}
 #color: blue=-1,red=1
 #arm: right=-1, left=1
@@ -47,8 +60,8 @@ In order to assess the accuracy of the person throwing, we chose the number of
 # cubePlot(linreg,"color","arm","distance","color.arm","color.distance","arm.distance","color.arm.distance")
 # IAPlot(linreg)
 
-hitrate <- 0.1*c(5,3,1,2,1,5,2,0,2,4,2,2,7,6,1,3,6,5,2,4,7,6,1,5,4,5,6,3,7,8,0,2)
-obs <- FrF2(nruns=8,nfactors=3,randomize=FALSE,factor.names=c("arm","distance","color"),replications=4)
+hitrate <- 0.1*c(1,0,2,1,5,2,3,5,6,2,4,1,2,3,2,7,6,1,2,4,7,6,5,5,6,2,4,5,3,7,8,0)
+obs <- FrF2(nruns=8,nfactors=3,randomize=TRUE,factor.names=c("arm","distance","color"),replications=4,seed=1)
 obs
 obs <- add.response(obs,hitrate)
 linreg2 <- lm(hitrate~(arm+distance+color)^3,data=obs)
@@ -68,4 +81,6 @@ linreg2.mod <- lm(hitrate~(arm+distance+color)^3,data=obs)
 summary(linreg2.mod)
 boxcox(linreg2,plotit=TRUE)
 ```
+
+
 
