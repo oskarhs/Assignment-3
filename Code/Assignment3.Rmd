@@ -83,5 +83,9 @@ $Theorem\ 1:$ Let $V$, $l$ and $p(\bf x)$ be defines as in the main text. Then $
 
 $Proof:$ For simplicity, we write $p=p(\bf x)$ here. The likelihood function for the binomial distribution is
 $$
-L(p) = f(v_1,v_2,\cdots,v_l;p) = \prod_{i=1}^{l} f(v_i;p) = \prod_{i=1}^{l} p(1-p)
+L(p) = f(v_1,v_2,\cdots,v_l;p) = \prod_{i=1}^{l} f(v_i;p) = \prod_{i=1}^{l} p_i.
+$$
+The corresponding log-likelihood function is obtained as follows:
+$$
+\ell 
 $$
