@@ -13,16 +13,16 @@ library(nortest)
 ```
 
 
-In this paper, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object in a bucket.
+In this paper, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object into a bucket.
 
-Ball play is an integral part of growing up in the modern world. One of the core activities of ball play is the classical bucket ball-throw.  A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Upon this assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
+Ball play is an integral part of growing up in the modern world. One of the core activities of ball play is the classical bucket ball-throw. A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Another assumption is that the accuracy of throwing a ball depends on the distance. Upon these assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
 
-Being blue-pilled individuals, we expect the throwing arm and distance to both have effects on throwing accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is influenced both by the hand with which we throw, and by the distance from which we perform the throw.
+We expect the throwing arm and distance to both have effects on throwing accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is influenced both by the hand with which we throw, and by the distance from which we perform the throw. On the other hand, we do not expect the accuracy to be dependent on the color of the bucket at which we throw.
 
-In this project, we seek to acquire a better understanding of the ball-throw.
+In this project, we seek to acquire a better understanding of the calssical ball-throw; more precisely, to what extent throwing hand, distance and bucket color influence the accuracy of the throws.
 
 
-In order to assess the accuracy of the person throwing, we chose the number of 
+
 
 ```{r}
 #color: blue=-1,red=1
