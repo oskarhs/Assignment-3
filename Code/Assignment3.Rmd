@@ -25,14 +25,15 @@ Concerning interaction effects, we hypothesize that throwing hand and distance h
 
 Controlling that the factors really are at the desired level is trivial, only having to know the difference between right and left, pink and blue, and two marked distances.
 
+**Model assumptions and response:**
 In our model, we assume that the thrower has a constant probability of hitting any given shot at level $\bf x$. We denote this probability as $p(\bf x)$. Let $V_{\bf x}$ denote the total number of successfull throws at a given level $\bf x$, using $l$ throws. By our assumption above, $V$ is binomially distributed.
 In order to assess the ability of a person to hit the bucket at each level, we define the $\underline{\mathrm{Accuracy}}$, $\mathrm{ACC}$, as follows:
 $$
 \mathrm{ACC} := \frac{V}{l}.
 $$
-Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$. Using the underlying binomial distribution, we can calculate the estimated standard deviation of the accuracy:
+Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$. We will therefore  Using the underlying binomial distribution, we can calculate the estimated standard deviation of the accuracy:
 $$
-\hat{SD}(\mathrm{ACC}) = \frac{\hat{SD}(V)}{l} = \frac{\sqrt{lp(1-p)}}{l} = \sqrt{\frac{p(1-p)}{l}}.
+\hat{SD}(\mathrm{ACC}) = \frac{\hat{SD}(V)}{l} = \frac{\sqrt{l\hat{p}(1-\hat{p})}}{l} = \sqrt{\frac{\hat{p}(1-\hat{p})}{l}}.
 $$
 
 Plugging in $l=10$, we see that $\hat{SD}(\mathrm{ACC}) \leq 1/\sqrt{40} \approx .158$.
