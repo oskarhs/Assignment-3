@@ -1,28 +1,72 @@
 ---
-title: "assignment3_magn"
+title: "Assignment 3 Code"
+author: "Emil Vedvik, Magnus C. Ørke, Oskar H. Simensen"
+date: "1 april 2019"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(MASS)
+library(FrF2)
+library(nortest)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+In this paper, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object in a bucket.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Ball play is an integral part of growing up in the modern world. One of the core activities of ball play is the classical bucket ball-throw.  A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Upon this assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
 
-```{r cars}
-summary(cars)
+Being blue-pilled individuals, we expect the throwing arm and distance to both have effects on throwing accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is influenced both by the hand with which we throw, and by the distance from which we perform the throw.
+
+In this project, we seek to acquire a better understanding of the ball-throw.
+
+
+In order to assess the accuracy of the person throwing, we chose the number of 
+
+```{r}
+#color: blue=-1,red=1
+#arm: right=-1, left=1
+#distance: near=-1, far=1
+
+# c<-matrix(c(1,1,1,1,1,1,1,
+#             1,-1,1,-1,1,-1,-1,
+#             1,1,-1,1,-1,-1,-1,
+#             1,-1,-1,-1,-1,1,1,
+#             -1,-1,1,1,-1,-1,1,
+#             -1,1,1,-1,-1,1,-1,
+#             -1,-1,-1,1,1,1,-1,
+#             -1,1,-1,-1,1,-1,1),byrow=TRUE,nrow=8)
+# c <- cbind(rbind(c,c,c,c),0.1*c(5,3,1,2,1,5,2,0,2,4,2,2,7,6,1,3,6,5,2,4,7,6,1,5,4,5,6,3,7,8,0,2))
+# colnames(c) <- c("color","arm","distance","color.arm","color.distance","arm.distance","color.arm.distance","hitrate")
+# df <- as.data.frame(c)
+# linreg <- lm(formula=hitrate~.,data=df)
+# summary(linreg)
+# model.matrix(linreg)
+
+# plot(linreg)
+# MEPlot(linreg)
+# cubePlot(linreg,"color","arm","distance","color.arm","color.distance","arm.distance","color.arm.distance")
+# IAPlot(linreg)
+
+hitrate <- 0.1*c(5,3,1,2,1,5,2,0,2,4,2,2,7,6,1,3,6,5,2,4,7,6,1,5,4,5,6,3,7,8,0,2)
+obs <- FrF2(nruns=8,nfactors=3,randomize=FALSE,factor.names=c("arm","distance","color"),replications=4)
+obs
+obs <- add.response(obs,hitrate)
+linreg2 <- lm(hitrate~(arm+distance+color)^3,data=obs)
+summary(linreg2)
+MEPlot(linreg2)
+IAPlot(linreg2)
+DanielPlot(linreg2)
+
+rsiduals <- rstudent(linreg2)
+plot(linreg2$fitted,rsiduals)
+
+qqnorm(rsiduals)
+qqline(rsiduals)
+ad.test(rstudent(linreg2))
+obs[,"hitrate"] <- obs[,"hitrate"]+0.0001 #boxcox demands values of response>0
+linreg2.mod <- lm(hitrate~(arm+distance+color)^3,data=obs)
+summary(linreg2.mod)
+boxcox(linreg2,plotit=TRUE)
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
