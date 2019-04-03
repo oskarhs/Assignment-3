@@ -10,17 +10,32 @@ knitr::opts_chunk$set(echo = TRUE)
 library(MASS)
 library(FrF2)
 library(nortest)
+library(bookdown)
 ```
 
-In this paper, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object in a bucket.
+In this project, we seek to acquire a better understanding of the calssical ball-throw; more precisely, to what extent throwing hand, distance and bucket color influence the accuracy of the throws.
 
-Ball play is an integral part of growing up in the modern world. A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Upon this assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
+Ball play is an integral part of growing up in the modern world. One of the core activities of ball play is the classical bucket ball-throw. A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Another assumption is that the accuracy of throwing a ball depends on the distance. Upon these assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
 
-We expect the throwing arm and distance to both have effects on accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is much more difficult 
+A two-level full factorial $2^3$ design is used in order to determine the effects of throwing hand, distance and bucket color on accuracy. The throwing hand can be either right or left, and distance is set to either 3.5 of 5 meters, as this is the distance interval from which we get interesting accuracy results; further away than 5 meters yields an accuracy close to zero, while closer than 3.5 meters results in hitting the bucjet almost every time. We use a pink bucket and a blue bucket, as pink and blue are two significantly different colors.
 
+We expect the throwing arm and distance to both have effects on throwing accuracy. Speaking from past experience, one's ability to throw precisely is influenced both by the hand with which we throw, and by the distance from which we perform the throw. On the other hand, we do not expect the accuracy to be dependent on the color of the bucket at which we throw.
 
-In order to assess the accuracy of the person throwing, we chose the number of 
+Concerning interaction effects, we hypothesize that throwing hand and distance have an interaction. Furthermore, we expect bucket color not to interact with either throwing hand or distance.
 
+Controlling that the factors really are at the desired level is trivial, only having to know the difference between right and left, pink and blue, and two marked distances.
+
+In our model, we assume that the thrower has a constant probability of hitting any given shot at level $\bf x$. We denote this probability as $p(\bf x)$. Let $V_{\bf x}$ denote the total number of successfull throws at a given level $\bf x$, using $l$ throws. By our assumption above, $V$ is binomially distributed.
+In order to assess the ability of a person to hit the bucket at each level, we define the $\underline{\mathrm{Accuracy}}$, $\mathrm{ACC}$, as follows:
+$$
+\mathrm{ACC} := \frac{V}{l}.
+$$
+Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$. Using the underlying binomial distribution, we can calculate the estimated standard deviation of the accuracy:
+$$
+\hat{SD}(\mathrm{ACC}) = \frac{\hat{SD}(V)}{l} = \frac{\sqrt{lp(1-p)}}{l} = \sqrt{\frac{p(1-p)}{l}}.
+$$
+
+Plugging in $l=10$, we see that $\hat{SD}(\mathrm{ACC}) \leq 1/\sqrt{40} \approx .158$.
 
 
 
@@ -79,8 +94,43 @@ ad.test(rstudent(linreg2))
 obs[,"hitrate"] <- obs[,"hitrate"]+0.0001 #boxcox demands values of response>0
 linreg2.mod <- lm(hitrate~(arm+distance+color)^3,data=obs)
 summary(linreg2.mod)
-boxcox(linreg2,plotit=TRUE)
+cox_lmb =  boxcox(linreg2,plotit=TRUE) 
+lmbd = cox_lmb$x[ which.max(cox_lmb$y) ]
+lmbd
 ```
 
+<<<<<<< HEAD
 
 
+=======
+$Theorem\ 1:$ Let $V$, $l$ and $p(\bf x)$ be defines as in the main text. Then $\mathrm{ACC}$ is the maximum likelihood estimate of $p(\bf x)$.
+
+$Proof:$ For simplicity, we write $p=p(\bf x)$ here. Let $v_1,v_2,\cdots,v_l$ denote the outcomes of of trials $1,2,\cdots,l$ ($v_i=1$ for succesfull throw and $v_i=0$ for a failed throw).
+The likelihood function in this case is
+$$
+L(p) = f(v_1,v_2,\cdots,v_l;p) = \prod_{i=1}^{l} f(v_i;p) = \prod_{i=1}^{l} p^{v_i}(1-p)^{1-v_i}.
+$$
+The  maximum is obtained by maximizing the corresponding log-likelihood function:
+$$
+\ell (p) = \ln(L(p)) = \sum_{i=1}^l \left[v_i\ln(p)+(1-v_i)\ln(1-p)\right]
+$$
+
+$$
+\ell ' (p) =  \frac{1}{p}\sum_{i=1}^{l} v_i + \frac{1}{1-p}\sum_{i=1}^{l}(1-v_i) = 0.
+$$
+
+Denote $v := \sum_{i=1}^{l} v_i$. The we can write the above expression as 
+$$
+\frac{v}{p} + \frac{l-v}{1-p} = 0.
+$$
+
+Reordering the terms, we obtain
+$$
+p = \frac{v}{l},
+$$
+
+which gives us the following maximum likelihood estimate:
+$$
+\hat{p} = \frac{V}{l} = \mathrm{ACC}.\quad \blacksquare
+$$
+>>>>>>> ec1bccde72c0ced6506d0b3b0de142ef0313996c
