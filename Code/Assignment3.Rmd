@@ -25,11 +25,10 @@ Concerning interaction effects, we hypothesize that throwing hand and distance h
 
 In our model, we assume that the thrower has a constant probability of hitting any given shot at level $\bf x$. We denote this probability as $p(\bf x)$. Let $V_{\bf x}$ denote the total number of successfull throws at a given level $\bf x$, using $l$ throws. By our assumption above, $V$ is binomially distributed.
 In order to assess the ability of a person to hit the bucket at each level, we define the $\underline{\mathrm{Accuracy}}$, $\mathrm{ACC}$, as follows:
-The the accuracy at level $\bf x$
 $$
 \mathrm{ACC} := \frac{V}{l}.
 $$
-Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$
+Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$. 
 
 
 ```{r}
@@ -81,17 +80,31 @@ boxcox(linreg2,plotit=TRUE)
 
 $Theorem\ 1:$ Let $V$, $l$ and $p(\bf x)$ be defines as in the main text. Then $\mathrm{ACC}$ is the maximum likelihood estimate of $p(\bf x)$.
 
-$Proof:$ For simplicity, we write $p=p(\bf x)$ here. The likelihood function for the binomial distribution is
+$Proof:$ For simplicity, we write $p=p(\bf x)$ here. Let $v_1,v_2,\cdots,v_l$ denote the outcomes of of trials $1,2,\cdots,l$ ($v_i=1$ for succesfull throw and $v_i=0$ for a failed throw).
+The likelihood function in this case is
 $$
 L(p) = f(v_1,v_2,\cdots,v_l;p) = \prod_{i=1}^{l} f(v_i;p) = \prod_{i=1}^{l} p^{v_i}(1-p)^{1-v_i}.
 $$
 The  maximum is obtained by maximizing the corresponding log-likelihood function:
 $$
-\ell (p) = \ln(L(p)) = \sum_{i=1}^l \left[v_i\ln(p)+(1-v_i)\ln(1-p)\right].
+\ell (p) = \ln(L(p)) = \sum_{i=1}^l \left[v_i\ln(p)+(1-v_i)\ln(1-p)\right]
 $$
 
 $$
-\ell ' (p) =  \frac{1}{p}\sum_{i=1}^{l} v_i + \frac{1}{1-p}\sum_{i=1}^{l}(1-v_i) = 0
+\ell ' (p) =  \frac{1}{p}\sum_{i=1}^{l} v_i + \frac{1}{1-p}\sum_{i=1}^{l}(1-v_i) = 0.
 $$
 
-denote $v := \sum_{i=1}^{l} v_i$.
+Denote $v := \sum_{i=1}^{l} v_i$. The we can write the above expression as 
+$$
+\frac{v}{p} + \frac{l-v}{1-p} = 0.
+$$
+
+Reordering the terms, we obtain
+$$
+p = \frac{v}{l},
+$$
+
+which gives us the following maximum likelihood estimate:
+$$
+\hat{p} = \frac{V}{l} = \mathrm{ACC}.\quad \blacksquare
+$$
