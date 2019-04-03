@@ -38,9 +38,16 @@ $$
 
 Plugging in $l=10$, we see that $\hat{SD}(\mathrm{ACC}) \leq 1/\sqrt{40} \approx .158$.
 
+The experiment were conducted in a randomized fashion given by
 
-
-
+```{r}
+obs <- FrF2(nruns=8,nfactors=3,randomize=TRUE,factor.names=c("arm","distance","color"),replications=4,seed=1)
+obs
+```
+with factor levels given as (\textcolor{red}{overflødig?})
+Color: blue = -1, red = 1
+Arm: right = -1, left = 1
+Distance: near = -1, far = 1 
 
 ```{r}
 #color: blue=-1,red=1
@@ -68,8 +75,6 @@ Plugging in $l=10$, we see that $\hat{SD}(\mathrm{ACC}) \leq 1/\sqrt{40} \approx
 # IAPlot(linreg)
 
 hitrate <- 0.1*c(1,0,2,1,5,2,3,5,6,2,4,1,2,3,2,7,6,1,2,4,7,6,5,5,6,2,4,5,3,7,8,0)
-obs <- FrF2(nruns=8,nfactors=3,randomize=TRUE,factor.names=c("arm","distance","color"),replications=4,seed=1)
-obs
 obs <- add.response(obs,hitrate)
 linreg2 <- lm(hitrate~(arm+distance+color)^3,data=obs)
 summary(linreg2)
