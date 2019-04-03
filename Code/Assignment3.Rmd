@@ -12,11 +12,14 @@ library(FrF2)
 library(nortest)
 ```
 
-In this assignment, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object in a bucket.
+In this paper, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object in a bucket.
 
 Ball play is an integral part of growing up in the modern world. A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Upon this assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
 
-We expect the throwing arm and distance to both have effects on accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is influenced both by the hand with which we throw, and by the distance from which we perform the throw.
+We expect the throwing arm and distance to both have effects on accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is much more difficult 
+
+
+In order to assess the accuracy of the person throwing, we chose the number of 
 
 
 ```{r}
