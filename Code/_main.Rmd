@@ -1,0 +1,87 @@
+---
+title: "Assignment 3 Code"
+author: "Emil Vedvik, Magnus C. Ørke, Oskar H. Simensen"
+date: "1 april 2019"
+knit: "bookdown::render_book"
+documentclass: krantz
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MASS)
+library(FrF2)
+library(nortest)
+library(bookdown)
+```
+
+In this paper, we use a full factorial $2^3$ design to determine the effect of color, distance and throwing arm on a persons ability to throw a round object in a bucket.
+
+Ball play is an integral part of growing up in the modern world. A common perception among human beings is that we are subject to handedness; the distinction between one dominant hand, and one less capable, less valued, non-dominant hand. Upon this assumption we live out our lives, not concerned about the correctnes of our worldviews and assumptions.
+
+We expect the throwing arm and distance to both have effects on accuracy, and it seems plausible that they would have an interaction effect. Speaking from past experience, one's ability to throw precisely is much more difficult 
+
+In our model, we assume that the thrower has a constant probability of hitting any given shot at level $\bf x$. We denote this probability as $p(\bf x)$. Let $V_{\bf x}$ denote the total number of successfull throws at a given level $\bf x$, using $l$ throws. By our assumption above, $V$ is binomially distributed.
+In order to assess the ability of a person to hit the bucket at each level, we define the $\underline{\mathrm{Accuracy}}$, $\mathrm{ACC}$, as follows:
+The the accuracy at level $\bf x$
+$$
+\mathrm{ACC} := \frac{V}{l}.
+$$
+Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$
+
+
+```{r}
+#color: blue=-1,red=1
+#arm: right=-1, left=1
+#distance: near=-1, far=1
+
+# c<-matrix(c(1,1,1,1,1,1,1,
+#             1,-1,1,-1,1,-1,-1,
+#             1,1,-1,1,-1,-1,-1,
+#             1,-1,-1,-1,-1,1,1,
+#             -1,-1,1,1,-1,-1,1,
+#             -1,1,1,-1,-1,1,-1,
+#             -1,-1,-1,1,1,1,-1,
+#             -1,1,-1,-1,1,-1,1),byrow=TRUE,nrow=8)
+# c <- cbind(rbind(c,c,c,c),0.1*c(5,3,1,2,1,5,2,0,2,4,2,2,7,6,1,3,6,5,2,4,7,6,1,5,4,5,6,3,7,8,0,2))
+# colnames(c) <- c("color","arm","distance","color.arm","color.distance","arm.distance","color.arm.distance","hitrate")
+# df <- as.data.frame(c)
+# linreg <- lm(formula=hitrate~.,data=df)
+# summary(linreg)
+# model.matrix(linreg)
+
+# plot(linreg)
+# MEPlot(linreg)
+# cubePlot(linreg,"color","arm","distance","color.arm","color.distance","arm.distance","color.arm.distance")
+# IAPlot(linreg)
+
+hitrate <- 0.1*c(5,3,1,2,1,5,2,0,2,4,2,2,7,6,1,3,6,5,2,4,7,6,1,5,4,5,6,3,7,8,0,2)
+obs <- FrF2(nruns=8,nfactors=3,randomize=FALSE,factor.names=c("arm","distance","color"),replications=4)
+obs
+obs <- add.response(obs,hitrate)
+linreg2 <- lm(hitrate~(arm+distance+color)^3,data=obs)
+summary(linreg2)
+MEPlot(linreg2)
+IAPlot(linreg2)
+DanielPlot(linreg2)
+
+rsiduals <- rstudent(linreg2)
+plot(linreg2$fitted,rsiduals)
+
+qqnorm(rsiduals)
+qqline(rsiduals)
+ad.test(rstudent(linreg2))
+obs[,"hitrate"] <- obs[,"hitrate"]+0.0001 #boxcox demands values of response>0
+linreg2.mod <- lm(hitrate~(arm+distance+color)^3,data=obs)
+summary(linreg2.mod)
+boxcox(linreg2,plotit=TRUE)
+```
+
+```{theorem}
+Epic stylw
+```
+
+
+<!--chapter:end:Assignment3.Rmd-->
+
