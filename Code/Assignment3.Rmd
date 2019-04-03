@@ -21,15 +21,21 @@ A two-level full factorial $2^3$ design is used in order to determine the effect
 
 We expect the throwing arm and distance to both have effects on throwing accuracy. Speaking from past experience, one's ability to throw precisely is influenced both by the hand with which we throw, and by the distance from which we perform the throw. On the other hand, we do not expect the accuracy to be dependent on the color of the bucket at which we throw.
 
-Concerning interaction effects, we hypothesize that throwing hand and distance have an interaction. Furthermore, we expect bucket color not to interact with either throwing hand or distance
+Concerning interaction effects, we hypothesize that throwing hand and distance have an interaction. Furthermore, we expect bucket color not to interact with either throwing hand or distance.
+
+Controlling that the factors really are at the desired level is trivial, only having to know the difference between right and left, pink and blue, and two marked distances.
 
 In our model, we assume that the thrower has a constant probability of hitting any given shot at level $\bf x$. We denote this probability as $p(\bf x)$. Let $V_{\bf x}$ denote the total number of successfull throws at a given level $\bf x$, using $l$ throws. By our assumption above, $V$ is binomially distributed.
 In order to assess the ability of a person to hit the bucket at each level, we define the $\underline{\mathrm{Accuracy}}$, $\mathrm{ACC}$, as follows:
 $$
 \mathrm{ACC} := \frac{V}{l}.
 $$
-Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$. 
+Furthermore, we ntoe that the $\mathrm{Accuracy}$ is the maximum likelihood estimate of the hitting probability at level $\bf x^{[1]}$. Using the underlying binomial distribution, we can calculate the estimated standard deviation of the accuracy:
+$$
+\hat{SD}(\mathrm{ACC}) = \frac{\hat{SD}(V)}{l} = \frac{\sqrt{lp(1-p)}}{l} = \sqrt{\frac{p(1-p)}{l}}.
+$$
 
+Plugging in $l=10$, we see that $\hat{SD}(\mathrm{ACC}) \leq 1/\sqrt{40} \approx .158$.
 
 ```{r}
 #color: blue=-1,red=1
@@ -75,7 +81,9 @@ ad.test(rstudent(linreg2))
 obs[,"hitrate"] <- obs[,"hitrate"]+0.0001 #boxcox demands values of response>0
 linreg2.mod <- lm(hitrate~(arm+distance+color)^3,data=obs)
 summary(linreg2.mod)
-boxcox(linreg2,plotit=TRUE)
+cox_lmb =  boxcox(linreg2,plotit=TRUE) 
+lmbd = cox_lmb$x[ which.max(cox_lmb$y) ]
+lmbd
 ```
 
 $Theorem\ 1:$ Let $V$, $l$ and $p(\bf x)$ be defines as in the main text. Then $\mathrm{ACC}$ is the maximum likelihood estimate of $p(\bf x)$.
